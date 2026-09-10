@@ -999,6 +999,11 @@ main() {
     return 0
   fi
 
+  if ! confirm "Remove all selected targets now"; then
+    print_warn "File removal skipped by user"
+    return 0
+  fi
+
   print_step "Stopping Xcode and simulator-related processes"
   shutdown_simulators
   if [[ "$MODE" == "full" ]]; then
@@ -1021,16 +1026,12 @@ main() {
     unmount_core_simulator_volumes
   fi
 
-  if confirm "Remove all selected targets now"; then
-    print_step "Removing selected targets"
-    local local_target=""
-    for local_target in "${TARGETS[@]}"; do
-      remove_path "$local_target"
-    done
-    remove_empty_library_developer_dir
-  else
-    print_warn "File removal skipped by user"
-  fi
+  print_step "Removing selected targets"
+  local local_target=""
+  for local_target in "${TARGETS[@]}"; do
+    remove_path "$local_target"
+  done
+  remove_empty_library_developer_dir
 
   if [[ "$MODE" == "full" ]]; then
     print_step "Resetting active developer directory"
