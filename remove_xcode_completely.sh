@@ -672,7 +672,7 @@ remove_children_with_progress() {
   local child=""
   local count=0
   local total=0
-  local status=0
+  local rm_status=0
   local children=()
 
   while IFS= read -r child; do
@@ -694,19 +694,19 @@ remove_children_with_progress() {
     count=$((count + 1))
     print_info "Removing item $count/$total: ${child:t}"
     if [[ -n "$error_log" ]]; then
-      sudo rm -rf "$child" 2>>"$error_log" || status=$?
+      sudo rm -rf "$child" 2>>"$error_log" || rm_status=$?
     else
-      sudo rm -rf "$child" || status=$?
+      sudo rm -rf "$child" || rm_status=$?
     fi
   done
 
   if [[ -n "$error_log" ]]; then
-    sudo rmdir "$target" 2>>"$error_log" || status=$?
+    sudo rmdir "$target" 2>>"$error_log" || rm_status=$?
   else
-    sudo rmdir "$target" || status=$?
+    sudo rmdir "$target" || rm_status=$?
   fi
 
-  return $status
+  return $rm_status
 }
 
 remove_empty_library_developer_dir() {
