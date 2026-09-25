@@ -842,7 +842,7 @@ remove_xcode_from_dock() {
     done
 
     local i=0
-    for (( i=${#indices[@]}-1; i>=0; i-- )); do
+    for (( i=${#indices[@]}; i>0; i-- )); do
       "$buddy" -c "Delete :${key}:${indices[i]}" "$plist" >/dev/null 2>&1 || true
     done
   done
