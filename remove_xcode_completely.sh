@@ -959,7 +959,11 @@ print_summary() {
   if [[ "$MODE" == "keep-base" ]]; then
     printf "%s\n" "${YELLOW}Keep-base mode preserved Xcode.app, Command Line Tools, and simulator runtimes.${RESET}"
   fi
-  printf "%s\n" "${CYAN}────────────────────────────  CLEANUP COMPLETE  ────────────────────────────${RESET}"
+  if (( ${#FAILED_TARGETS[@]} > 0 )); then
+    print_warn "Cleanup incomplete: ${#FAILED_TARGETS[@]} target(s) could not be fully removed."
+  else
+    printf "%s\n" "${CYAN}────────────────────────────  CLEANUP COMPLETE  ────────────────────────────${RESET}"
+  fi
 }
 
 main() {
@@ -1060,6 +1064,9 @@ main() {
 
   BYTES_AFTER=$(capture_free_bytes)
   print_summary
+  if (( ${#FAILED_TARGETS[@]} > 0 )); then
+    return 1
+  fi
   print_ok "Cleanup script finished"
 }
 
