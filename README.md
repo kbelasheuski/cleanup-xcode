@@ -8,7 +8,7 @@ DerivedData, archives, caches, logs, preferences, and related files.
 ## Options
 
 - `--full`: remove Xcode.app, Command Line Tools, simulator runtimes, device data, caches, and related files.
-- `--keep-base`: keep Xcode.app, Command Line Tools, and installed simulator runtimes. Remove generated data and caches.
+- `--keep-base`: keep Xcode.app, Command Line Tools, and installed simulator runtimes. Remove generated data, caches, archives, simulator device data, and Xcode settings.
 - `--scan`: show known Xcode-related files. Does not delete anything.
 - `--estimate-sizes`: estimate target sizes before removal. This can be slow.
 - `--yes`: skip confirmation prompts for the selected mode.
